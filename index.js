@@ -33,14 +33,14 @@ const downloadVideos = () => {
       "progress",
       (_, downloaded, total) => {
         tracker.audio = { downloaded, total };
-          console.log("Audio -> ",downloaded," / ",total );
+          // console.log("Audio -> ",downloaded," / ",total );
       }
     );
     const video = ytdl(ref, { quality: "highestvideo" }).on(
       "progress",
       (_, downloaded, total) => {
         tracker.video = { downloaded, total };
-          console.log("Video -> ",downloaded," / ",total );
+          // console.log("Video -> ",downloaded," / ",total );
       }
     );
   
