@@ -15,9 +15,13 @@ let progress = 0;
 const downloadVideos = () => {
 
   let now = new Date();
-  console.log("😎 download started " + now.toString());
+
+  console.log("\n 😎 scrapper started " + now.toString() +"\n");
   
   urls.forEach((ref, index) => {
+    if (fs.existsSync("dist/aula-" + (index + 1) + ".mkv")) {
+      console.log("⚠️ dist/aula-" + (index + 1) + ".mkv already exists... skipping");
+    }else{
     const tracker = {
       start: Date.now(),
       audio: { downloaded: 0, total: Infinity },
@@ -29,14 +33,14 @@ const downloadVideos = () => {
       "progress",
       (_, downloaded, total) => {
         tracker.audio = { downloaded, total };
-        //   console.log("Audio -> ",downloaded," / ",total );
+          console.log("Audio -> ",downloaded," / ",total );
       }
     );
     const video = ytdl(ref, { quality: "highestvideo" }).on(
       "progress",
       (_, downloaded, total) => {
         tracker.video = { downloaded, total };
-        //   console.log("Video -> ",downloaded," / ",total );
+          console.log("Video -> ",downloaded," / ",total );
       }
     );
   
@@ -114,9 +118,10 @@ const downloadVideos = () => {
       let now = new Date();
       console.log("🎉 All downloads completeds | "+ now.toString());
     }
+  }
   });
-  
 }
+
 
 
 if (fs.existsSync(dir) == false) {
