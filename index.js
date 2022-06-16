@@ -52,7 +52,7 @@ const downloadVideos = () => {
       console.log(
         `❌ download failed -> dist/${fileName} (${progress}/${quantity}) | ${status}`
       );
-      errorslog.push({"url":link,"title":fileName});
+      errorslog.push({"link":link,"title":fileName});
       finishApp();
     }
       // Variables
