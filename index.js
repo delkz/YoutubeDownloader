@@ -14,9 +14,10 @@ let warnings = 0;
 let fail = 0;
 let success = 0;
 
+
 const downloadVideos = () => {
   let now = new Date();
-
+  let errorslog = [];
   console.log("\n 😎 scrapper started " + now.toString() + "\n");
 
   const finishApp = () =>{
@@ -24,7 +25,23 @@ const downloadVideos = () => {
         let now = new Date();
         console.log("\n🎉 All downloads completed | " + now.toString());
         console.log(`✅ -> ${success} ❌ -> ${errors} ⚠️ -> ${warnings} 🟥 -> ${fail}`);
-        process.exit(1);
+
+        if (errors > 0) {
+          let now = new Date();
+          let string = `${now.getDate()}-${now.getMonth()}_${now.getHours()}-${now.getMinutes()}`; 
+
+          let data = JSON.stringify(errorslog);
+          fs.writeFile(`errors_${string}.json`, data, (err) => {
+            if (err) throw err;
+            console.log(`Erros log created -> errors_${string}.json`);
+            process.exit(1);
+          });
+
+        }else{
+          process.exit(1);
+        }
+
+
       }
   }
 
@@ -35,6 +52,7 @@ const downloadVideos = () => {
       console.log(
         `❌ download failed -> dist/${fileName} (${progress}/${quantity}) | ${status}`
       );
+      errorslog.push({"url":link,"title":fileName});
       finishApp();
     }
       // Variables
